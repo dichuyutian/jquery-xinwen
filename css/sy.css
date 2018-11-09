@@ -1,0 +1,119 @@
+*{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	color: #333;
+	text-decoration: none;
+	font-family: "Microsoft Yahei","微软雅黑",verdana;
+	box-sizing: border-box;
+}
+
+div.container{
+	padding: 0;
+	height:840px;
+	background-color: #f0f0f0;
+}
+.container .bd-left{
+	padding: 0;
+	background-color: #282830;
+}
+.container .bd-left div.con,.container .bd-left div.box{
+	cursor: pointer;
+}
+.container .bd-left span{
+	color: #fff;
+	font-size: 14px;
+}
+.bd-left .bd-left-head{
+	padding: 0;
+
+	height: 38px;
+	line-height: 38px;
+	background-color: #3d556d;
+}
+.bd-left .bd-left-head .con{
+	padding-left: 23px;
+	padding-right: 23px;
+}
+.bd-left .bd-left-head .con .img{
+	display: inline-block;
+	padding-right: 23px;
+}
+.bd-left .bd-left-body{
+	height: 800px;
+	padding-top: 40px;
+
+}
+.bd-left .bd-left-body .box{
+	height: 30px;
+	line-height: 30px;
+	border-bottom: 1px solid #313138;
+}
+.bd-left .bd-left-body .box .con{
+	padding-left: 20px;
+	padding-right: 25px;
+}
+.bd-left .bd-left-body .box .con i:first-child{
+	padding-right: 10px;
+	color: #fff;
+	font-size: 14px;
+}
+.bd-left .bd-left-body .box .con i:last-child{
+	float: right;
+	color: #fff;
+	font-size: 14px;
+}
+div.bd-right{
+	padding: 0;
+	position: relative;
+}
+.bd-right .bd-right-head{
+	border-right: 1px solid #f0f0f0;
+	height: 38px;
+	background-color: #fff;
+}
+.bd-right .bd-right-head .con{
+	padding-left: 10px;
+	padding-right: 60px;
+	padding-top: 5px;
+	overflow: hidden;
+}
+.bd-right .bd-right-head .con .icon i{
+	font-size: 24px;
+	padding-right: 30px;
+}
+.bd-right .bd-right-head .con .NoticeNum{
+	background-color: red;
+	border-radius: 50%;
+	display: inline-block;
+	height: 14px;
+	width: 14px;
+	position: absolute;
+	top:8px;
+	left:78px;
+	line-height: 14px;
+	font-size: 12px;
+	text-align: center;
+	color: white;
+	font-weight: 700;
+}
+.bd-right .bd-right-head .con .icon{
+	float: left;
+}
+.bd-right .bd-right-head .con .infoDiv{
+	float:right;
+}
+.bd-right .bd-right-head .con .infoDiv img{
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	
+}
+.bd-right .bd-right-head .con .infoDiv .name{
+	padding-right: 8px;
+}
+.contentRight{
+	width: 100%;
+	height: 800px;
+	overflow: auto;
+}

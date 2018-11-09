@@ -1,0 +1,234 @@
+<div id="user">
+	<button class="btn btn-success btn-sm addBtn">新增</button>
+	<div class="row marginTop">		
+	</div>
+	<!-- 模态框 -->
+	<div class="modal" id="usermodal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-hander text-center">
+					<div class="backDiv">
+						<i class="iconfont icon-zuo"></i>
+						<span>返回</span>
+					</div>
+					<div class="modal-title">
+						添加用户
+					</div>
+				</div>
+				<div class="modal-body">
+					<form action="" class="form">
+						<div class="form-group">
+							<label for="">用户名</label>
+							<input type="text" name="username" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="">密码</label>
+							<input type="password" name="password" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="">确认密码</label>
+							<input type="password" name="password1" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="">真实姓名</label>
+							<input type="text" name="nickname" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="">邮箱</label>
+							<input type="email" name="email" class="form-control">
+						</div>
+						<div class="form-group hide">
+							<button type="reset">重置</button>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<span class="massageSpan"></span>
+					<button class="btn btn-success btn-sm saveBtn">提 交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="alertDiv">
+		<div class="alert alert-success">
+			<strong>提示：</strong>
+			<span>执行成功</span>
+		</div>
+	</div>
+</div>
+<script>
+	$(function(){
+		//设置模态框高度
+		$('.modal-content').height($(window).height());
+		//打开模态框
+		$('.addBtn').click(function(){
+			//重置表单
+			$('button[type=reset]').trigger('click');
+			//清除提示信息
+			$('.massageSpan').html('');
+			$('#usermodal').show();
+		});
+		//关闭模态框
+		$('.backDiv').click(function(){
+			$('#usermodal').hide();
+		});
+		//提交按钮，保存数据，提示验证信息
+		$('.saveBtn').click(function(){
+			//获取输入框输入的信息
+			var username = $('input[name=username]').val();
+			var password = $('input[name=password]').val();
+			var password1 = $('input[name=password1]').val();
+			var nickname = $('input[name=nickname]').val();
+			var email = $('input[name=email]').val();
+			var message = "";
+			//提示信息，
+			if (username&&password&&password1&&nickname&&email) {
+				if (password==password1) {
+					var obj = {
+						username:username,
+						password:password,
+						nickname:nickname,
+						email:email,
+					};
+					$.post(baseURL+'/manager/user/saveOrUpdateUser',obj,function(res){
+						console.log(res,'保存成功');
+						//刷新页面，关闭模态框，提示执行成功
+						loadData();
+						$('#usermodal').hide();
+						$('alertDiv').addClass('animated slideInRight');
+						$('.alertDiv').show();
+						setTimeout(function(){
+							$('.alertDiv').fadeOut();
+						},2000);
+
+					});
+				}else{
+					massage = "两次此密码不一致";
+				};
+			}else{
+				massage = "请输入完整信息";
+			}
+			$('.massageSpan').html(massage);
+		});
+
+		$('#user').on({
+			'switchChange.bootstrapSwitch':function (event,state) {
+		          console.log(state);
+		          // 点击修改之后，向后台传递参数
+		          var id = $(this).closest('.switch').prev('input').val();
+		          var obj = {
+		          	id:id,
+		          	status:state,
+		          };
+		          $.post(baseURL+'/manager/user/changeStatus',obj,function(){
+		          	console.log(res,"成功");
+		          });
+		      }
+		},'[type=checkbox]');
+		//获取数据呢
+		loadData();
+		function loadData(){
+			$('.marginTop').empty();
+			$.get('http://120.78.164.247:8099'+'/manager/user/findAllUser',function(res){
+				console.log(res.data);
+				res.data.forEach(function(item,index){
+					//创建略缩图
+					var $thm = $(`<div class="col-sm-4">
+					    <div class="thumbnail">
+					      <img class="img-circle" style="width:150px;height:150px;" src="`+(item.userface?item.userface:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg')+`" alt="...">
+					      <div class="caption">
+					        <!-- 用户信息 -->
+					        <div class="row">
+					        	<div class="col-sm-4 col-sm-offset-1">用户名</div>
+					        	<div class="col-sm-7">`+(item.username?item.username:'-')+`</div>
+					        </div>
+					        <div class="row">
+					        	<div class="col-sm-4 col-sm-offset-1">真实姓名</div>
+					        	<div class="col-sm-7">`+(item.nickname?item.nickname:'-')+`</div>
+					        </div>
+					        <div class="row regtime">
+					        	<div class="col-sm-4 col-sm-offset-1">注册时间</div>
+					        	<div class="col-sm-7">`+(item.regTime?item.regTime:'-')+`</div>
+					        </div>
+					        <div class="row">
+					        	<div class="col-sm-4 col-sm-offset-1">email</div>
+					        	<div class="col-sm-7">`+(item.email?item.email:'-')+`</div>
+					        </div>
+					        <div class="row">
+					        	<div class="col-sm-4 col-sm-offset-1">状态</div>
+					        	<div class="col-sm-7">
+					        		<!-- 用户id -->
+					        		<input type="hidden" value="`+item.id+`">
+					        		<!-- 开关按钮 -->
+					        		<div class="switch">
+									      <input type="checkbox"/>
+									    </div>
+					        	</div>
+					        </div>
+					      </div>
+						  </div>
+						</div>`);
+					$('.marginTop').append($thm);
+					// 初始化复选按钮，开关按钮
+					$('#user input[type=checkbox]:last').bootstrapSwitch('state',item.enabled);
+					});
+			});
+		}
+	})
+</script>
+<style>
+	#user{
+		width: 98%;
+		margin: 0 auto;
+		margin-top: 10px;
+		background-color: #fff;
+		padding: 10px;
+		height: 840px;
+	}
+	.marginTop{
+		margin-top: 10px;
+		font-size: 16px;
+		
+	}
+	.caption .row{
+		line-height: 40px;
+	}
+	.thumbnail{
+		box-shadow: 3px 3px 3px #ccc;
+	}
+	.modal-hander{
+		margin: 10px;
+	}
+	.modal{
+		background-color: rgba(0,0,0,0.4);
+
+	}
+	.modal-dialog{
+		width: 300px;
+		margin-top: 0;
+		margin-right: 0;
+	}
+	.backDiv{
+		float: left;
+		cursor: pointer;
+	}
+	.massageSpan{
+		color: red;
+	}
+	.alertDiv{
+		display: none;
+		position: absolute;
+		top: 20px;
+		width: 300px;
+		right: 20px;
+	}
+	.saveBtn{
+		padding: 5px 10px;
+		font-size: 12px;
+		line-height: 1.5;
+		border-radius: 3px;
+	}
+	.regtime .col-sm-7{
+		font-size: 12px;
+	}
+</style>
